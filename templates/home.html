@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Uploader</title>
+</head>
+<body>
+    <h1>Resume Updater</h1>
+
+    <form action="/update" method="POST" id="inputForm" enctype="multipart/form-data" >	  
+         <label for="name">Enrollment No.</label>  
+        <input type="text" name="name" placeholder="0xx01172020" pattern="0\d\d01172020" required/>
+       <div class="form-row">
+         <label>Upload your resume</label>			
+         <input id="resume" name="resume" type="file" accept=".pdf" required/>
+       </div>
+       <div class="form-row">
+           <button class="btn btn-primary" type="submit">Update Resume</button>
+       </div>
+
+     </form>
+</body>
+</html>
