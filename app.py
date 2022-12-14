@@ -13,7 +13,7 @@ from flask import Flask, request, jsonify, render_template
 from datetime import datetime
 
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=r"D:\Documents\GitHub\TNP-website\resume-371519-94427ed57d8b.json" #path to service account credentials
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=r"D:\Documents\GitHub\TNP-website\resume-371519-aa010224e640.json" #path to service account credentials
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
