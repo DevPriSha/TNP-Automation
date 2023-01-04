@@ -1,5 +1,6 @@
 from __future__ import print_function
 import os.path
+from io import BytesIO
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -8,7 +9,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from googleapiclient.http import MediaFileUpload
+from googleapiclient.http import MediaIoBaseUpload
 
 from flask import Flask, request, jsonify, render_template
 from datetime import datetime
@@ -27,7 +28,7 @@ folder = "1y7JTdl2qx8toMnQsB85lRCToxj3LRtYC" #folder id of drive folder where re
 data_sheet = "1S0bkIAAMrNeWxhQ4fqHkjrNVqnEcjpiI0SnIvKcOdOw" #id of google sheet where data is stored
 
 
-def update_resume(enroll, filename):
+def update_resume(enroll, filename, buffer):
     creds = service_account.Credentials.from_service_account_info(json.loads(os.getenv('KEY')))
     service = build('drive', 'v3', credentials=creds)
     results = service.files().list(
@@ -50,7 +51,7 @@ def update_resume(enroll, filename):
             'name': filename,
             'parents': [folder]
         }
-        media = MediaFileUpload(filename,
+        media = MediaIoBaseUpload(buffer,
                                 mimetype='application/pdf', resumable=True)
         # pylint: disable=maybe-no-member
         file = service.files().create(body=file_metadata, media_body=media,
@@ -121,9 +122,10 @@ def upload():
     file = request.files['resume']
     filename = enroll+"-"+datetime.today().strftime('%d-%m-%Y')+".pdf"
     #save file to local with filename
-    file.save(filename)
+    buffer_memory=BytesIO()
+    file.save(buffer_memory)
 
-    return update_resume(enroll, filename)
+    return update_resume(enroll, filename, file)
     #search for file in drive folder
     
     # os.remove(filename)
