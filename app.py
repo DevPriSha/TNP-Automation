@@ -13,7 +13,24 @@ from flask import Flask, request, jsonify, render_template
 from datetime import datetime
 
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=r"D:\Documents\GitHub\TNP-website\resume-371519-aa010224e640.json" #path to service account credentials
+from cryptography.fernet import Fernet
+from dotenv import load_dotenv
+load_dotenv()
+
+#load Fernet key from .env file
+key = os.environ.get("FERNET-KEY").encode()
+f = Fernet(key)
+
+#decrypt service key
+with open("encrypted-service-key-tnp.json", "rb") as encrypted_file:
+    encrypted = encrypted_file.read()
+
+decrypted = f.decrypt(encrypted)
+
+with open("decrypted-service-key-tnp.json", "wb") as decrypted_file:
+    decrypted_file.write(decrypted)
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="decrypted-service-key-tnp.json" #path to service account credentials
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
