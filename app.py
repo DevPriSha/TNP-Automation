@@ -3,6 +3,7 @@ import os.path
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from google.oauth2 import service_account
 from google_auth_oauthlib.flow import InstalledAppFlow
 import google.auth
 from googleapiclient.discovery import build
@@ -13,22 +14,10 @@ from flask import Flask, request, jsonify, render_template
 from datetime import datetime
 
 import os
-from cryptography.fernet import Fernet
+import json
 from dotenv import load_dotenv
 load_dotenv()
 
-#load Fernet key from .env file
-key = os.environ.get("FERNET_KEY").encode()
-f = Fernet(key)
-
-#decrypt service key
-with open("encrypted-service-key-tnp.json", "rb") as encrypted_file:
-    encrypted = encrypted_file.read()
-
-decrypted = f.decrypt(encrypted)
-
-with open("decrypted-service-key-tnp.json", "wb") as decrypted_file:
-    decrypted_file.write(decrypted)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="decrypted-service-key-tnp.json" #path to service account credentials
 
@@ -39,7 +28,7 @@ data_sheet = "1S0bkIAAMrNeWxhQ4fqHkjrNVqnEcjpiI0SnIvKcOdOw" #id of google sheet 
 
 
 def update_resume(enroll, filename):
-    creds, _ = google.auth.default()
+    creds = service_account.Credentials.from_service_account_info(json.loads(os.getenv('KEY')))
     service = build('drive', 'v3', credentials=creds)
     results = service.files().list(
         q=f"name contains '{enroll}' and parents in '{folder}'",
