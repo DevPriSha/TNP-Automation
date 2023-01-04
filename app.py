@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 #load Fernet key from .env file
-key = os.environ.get("FERNET-KEY").encode()
+key = os.environ.get("FERNET_KEY").encode()
 f = Fernet(key)
 
 #decrypt service key
