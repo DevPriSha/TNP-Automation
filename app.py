@@ -24,8 +24,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="decrypted-service-key-tnp.json" #p
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
-folder = "1y7JTdl2qx8toMnQsB85lRCToxj3LRtYC" #folder id of drive folder where resumes are stored
-data_sheet = "1S0bkIAAMrNeWxhQ4fqHkjrNVqnEcjpiI0SnIvKcOdOw" #id of google sheet where data is stored
+folder = "1SQHhSWcvoT0K7IlJ71ELM6zCcXtAB-85" #folder id of drive folder where resumes are stored
+data_sheet = "1yQSgzEyZ4inMBBlY-ovMJV7mAbX83b93M0k4QWYtWL0" #id of google sheet where data is stored
 
 
 def update_resume(enroll, filename, buffer):
