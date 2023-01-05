@@ -87,7 +87,7 @@ def update_resume(enroll, filename, buffer):
                         }
                     ).execute()
                     print("updated")
-                    return jsonify({'success': 'true'})
+                    return jsonify({'success': 'true', 'updated': 'true', 'enroll': enroll, 'link': f"https://drive.google.com/file/d/{file.get('id')}/view?usp=sharing"})
             print("not found")
             service_sheet.spreadsheets().values().append(
                 spreadsheetId=data_sheet,
@@ -103,7 +103,7 @@ def update_resume(enroll, filename, buffer):
                 }
             ).execute()
             print("added")
-            return jsonify({'success': 'true'})
+            return jsonify({'success': 'true', 'updated': 'false', 'enroll': enroll, 'link': f"https://drive.google.com/file/d/{file.get('id')}/view?usp=sharing"})
 
     except HttpError as error:
         print(F'An error occurred: {error}')

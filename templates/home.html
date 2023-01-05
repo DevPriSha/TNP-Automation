@@ -21,5 +21,38 @@
        </div>
 
      </form>
+      <div id="enrollnum"></div>
+      <div id="resumelink"></div>
+     <script type="text/javascript">
+      // display jsonify data from /update
+      const form = document.getElementById('inputForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch('/update', {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if (data.success === 'true') {
+              if (data.updated === 'true') {
+                alert('Resume updated successfully');
+              } else {
+                alert('Resume uploaded successfully');
+              }
+              document.getElementById('enrollnum').innerHTML = "Enrollment No.: "+data.enroll;
+              document.getElementById('resumelink').innerHTML = "Resume Link: "+data.link;
+            }
+            if (data.error) {
+              alert(data.error);
+            }
+
+          });
+      });
+
+
+     </script>
 </body>
 </html>
